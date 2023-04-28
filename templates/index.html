@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Flask App</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
+  </head>
+  <body>
+      <div class="container">
+        <h1>Danuri: Visualization Recommendation System</h1>
+        <div class="div1">
+            <div class="div2">
+                <h2>Step 1: Set context to draw a chart</h2>
+                <form method="post">
+                <label for="first_input">Context:</label>
+                <textarea type="text" name="first_input" id="first_input">{{request.form.get('first_input', '')}}</textarea>
+                <br>
+                
+                <section>
+                    <input type="radio" name="option" id="option1" value="option1" {% if request.form.get('option') == "option1" %}checked{% endif %}>
+                    <label for="option1">No data (test with dummy)</label>
+                </section>
+                <section>
+                    <input type="radio" name="option" id="option2" value="option2" {% if request.form.get('option') != "option1" %}checked{% endif %}>
+                    <label for="option2">I have data</label>
+                </section>
+
+                <br>
+                <div id="second_input_div" style="display;">
+                    <label for="second_input">Provide detailed data:</label>
+                    <textarea type="text" name="second_input" id="second_input">{{request.form.get('second_input', '')}}</textarea>
+                    <br>
+                </div>
+                <input type="submit" value="Submit">
+                </form>
+            </div>
+            <div class="div2">
+                <h2>Step 2: Visualization</h2>
+                {% if c_type %}
+                <p>Recommended chart type: {{ c_type }}</p>
+                <img src={{ chart_url }}>
+                <p> <b>Why choose <u>{{ c_type }}</u>?</b> {{ reason }}</p>
+                {% endif %}
+            </div>
+            <div class="div2">
+                <h2>Step 3: Analysis (QnA)</h2>
+                <form method="post">
+                    <label for="third_input">Question:</label>
+                    <textarea type="text" name="third_input" id="third_input">{{request.form.get('third_input', '')}}</textarea>
+                    <br>
+                    <input type="submit" value="Submit">
+                </form>
+                <p>Answer: </p>
+            </div>
+        </div>
+    </div>
+    <script>
+      const option1 = document.getElementById('option1');
+      const option2 = document.getElementById('option2');
+      const secondInputDiv = document.getElementById('second_input_div');
+
+      option1.addEventListener('click', () => {
+        secondInputDiv.style.display = 'none';
+      });
+
+      option2.addEventListener('click', () => {
+        secondInputDiv.style.display = 'block';
+      });
+
+      const selectedOption = "{{ request.form.get('option') }}";
+      if (selectedOption === "option1") {
+        secondInputDiv.style.display = 'none';
+      }
+    </script>
+  </body>
+</html>
