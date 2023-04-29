@@ -56,33 +56,41 @@ def index():
 
                 print(f"[INFO] '{response[0]}' --> '{session['c_type']}'")
 
-                if session["second_input"]:
-                    session["chart_url"] = draw_chart(
-                        session["c_type"], session["second_input"]
-                    )
-                else:
-                    session["chart_url"] = draw_chart(session["c_type"])
+                session["chart_url"] = draw_chart(
+                    session["c_type"], session["second_input"]
+                )
+
+                session["third_input"] = ""
+                session["answer"] = ""
 
             else:
                 print("[INFO] proceeding form 2....")
+                session["third_input"] = request.form["third_input"]
+                context = session["first_input"] + " " + session["second_input"]
+                print("context: ", context)
 
-            if session["second_input"]:
-                return render_template(
-                    "index.html",
-                    first_input=session["first_input"],
-                    second_input=session["second_input"],
-                    c_type=session["c_type"],
-                    reason=session["reason"],
-                    chart_url=session["chart_url"],
-                )
-            else:
-                return render_template(
-                    "index.html",
-                    first_input=session["first_input"],
-                    c_type=session["c_type"],
-                    reason=session["reason"],
-                    chart_url=session["chart_url"],
-                )
+                messages = [
+                    {
+                        "role": "user",
+                        "content": f"Please read the context and answer the question:\n"
+                        + f"context: {context}\n"
+                        + f"question: {session['third_input']}",
+                    },
+                ]
+
+                response = openai.ChatCompletion.create(model=MODEL, messages=messages)
+                session["answer"] = response["choices"][0]["message"]["content"].strip()
+
+            return render_template(
+                "index.html",
+                first_input=session["first_input"],
+                second_input=session["second_input"],
+                third_input=session["third_input"],
+                c_type=session["c_type"],
+                reason=session["reason"],
+                answer=session["answer"],
+                chart_url=session["chart_url"],
+            )
         else:
             return render_template("index.html")
     else:
@@ -95,7 +103,7 @@ def draw_chart(c_type, detail=None):
     qc.height = 300
     qc.version = "2"
 
-    if detail:
+    if detail != "":
         messages = [
             {
                 "role": "user",

@@ -9,13 +9,12 @@
         <h1>Danuri: Visualization Recommendation System</h1>
         <div class="div1">
             <div class="div2">
-                <h2>Step 1: Set context to draw a chart</h2>
+                <h2>Step 1: Context setting to draw a chart</h2>
                 <form method="post">
                     <input type="hidden" name="form_id" value="form1">
                     <label for="first_input">Context:</label>
-                    <textarea type="text" name="first_input" id="first_input">{{first_input}}</textarea>
+                    <textarea type="text" name="first_input" id="first_input">{{ first_input }}</textarea>
                     <br>
-                    
                     <section>
                         <input type="radio" name="option" id="option1" value="option1" {% if request.form.get('option') == "option1" %}checked{% endif %}>
                         <label for="option1">No data (test with dummy)</label>
@@ -24,11 +23,10 @@
                         <input type="radio" name="option" id="option2" value="option2" {% if request.form.get('option') != "option1" %}checked{% endif %}>
                         <label for="option2">I have data</label>
                     </section>
-
                     <br>
                     <div id="second_input_div" style="display;">
                         <label for="second_input">Provide detailed data:</label>
-                        <textarea type="text" name="second_input" id="second_input">{{second_input}}</textarea>
+                        <textarea type="text" name="second_input" id="second_input">{{ second_input }}</textarea>
                         <br>
                     </div>
                     <input type="submit" value="Submit">
@@ -51,7 +49,7 @@
                     <br>
                     <input type="submit" value="Submit">
                 </form>
-                <p>Answer: </p>
+                <p>Answer: {{ answer }}</p>
             </div>
         </div>
     </div>
