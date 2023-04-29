@@ -27,7 +27,7 @@ MULTIPLE_BAR = """{
     }, {
       label: FAKE,
       data: FAKE,
-    }]
+    },]
   }
 }"""
 
@@ -275,7 +275,7 @@ CHART_DICT = {
     "MULTIPLE_BAR": MULTIPLE_BAR,
     "STACKED_BAR": STACKED_BAR,
     "LINE": LINE,
-    "MULTIPLE_BAR": MULTIPLE_BAR,
+    "MULTIPLE_LINE": MULTIPLE_LINE,
     "RADAR": RADAR,
     "PIE": PIE,
     "DOUGHNUT": DOUGHNUT,
